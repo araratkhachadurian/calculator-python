@@ -4,6 +4,6 @@ In this project I aim to create a calculatorwith model-view-controller structure
 
 Implemented basic calculator that can perform addition (+), subtraction (-), multiplication (* or x), division (/ or :) and powers (^) between two numbers.
 
-Next goal:
+9-2-2021 Changes:
 
-Instead of 3 seperate input for first number, operator and second number, allow for a full mathematical string input (eg, 5 + 10 / 2, (5^2+10)x10).
+Implemented start to allow sequential mathematical input.
