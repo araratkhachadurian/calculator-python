@@ -5,16 +5,15 @@
 
 import model.verifications as ver
 import model.operations as op
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import model.calculator as calculator
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+
+    calculator = calculator
+
+    calculator.request()
 
     valid = False
 
@@ -27,7 +26,7 @@ if __name__ == '__main__':
             print("Input is invalid, please try again: ")
         # get the operator
         operator = input("Enter an operator: ")
-        while not ver.isOperator(operator):
+        while not ver.is_operator(operator):
             print("Input is invalid, please try again: ")
             operator = input("Enter an operator: ")
         # get the second number
