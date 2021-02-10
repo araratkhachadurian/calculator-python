@@ -20,9 +20,13 @@ def is_right_bracket(char):
         return False
 
 
+# does not yet accept brackets
 def is_valid(problem, char):
     # after an operator you can only enter a number
-    if is_operator(problem(-1)):
-        if is_number(float(char)):
+    if is_operator(problem[-1]):
+        if char.isdigit():
             return True
-    return False
+        else:
+            print("INCORRECT INPUT : OPERATOR AFTER OPERATOR")
+            return False
+    return True
