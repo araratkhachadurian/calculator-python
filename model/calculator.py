@@ -52,8 +52,8 @@ class Calculator:
                 n = i
                 # temporary string to store consecutive digits
                 temp = self.problem[n]
-                # add consecutive digits to the string
-                while self.problem[n + 1].isdigit():
+                # add consecutive digits to the string or a dot for decimals
+                while self.problem[n + 1].isdigit() or self.problem[n + 1] == '.':
                     temp = temp + self.problem[n + 1]
                     n = n + 1
                     # if at the last digit, stop loop

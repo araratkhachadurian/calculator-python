@@ -4,7 +4,8 @@ def is_number(x):
 
 
 def is_operator(char):
-    if char == '+' or char == '-' or char == '*' or char == 'x' or char == '/' or char == ':' or char == '^':
+    if char == '+' or char == '-' or char == '*' or char == 'x' or char == '/' \
+            or char == ':' or char == '^' or char == '.':
         return True
     else:
         return False
