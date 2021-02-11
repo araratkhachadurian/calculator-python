@@ -11,3 +11,7 @@ Implemented start to allow sequential mathematical input.
 10-2-2021 Changes:
 
 Implemented a method which reformats the mathematical problem list of only characters (digits and operators) into a list of floats and operator characters. Calculator now accepts dots to indicate decimals. 
+
+11-2-2021 Changes:
+
+Implemented calculation of 2 numbers
