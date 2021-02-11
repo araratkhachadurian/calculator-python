@@ -3,28 +3,33 @@ import model.verifications as ver
 
 
 class Calculator:
-    problem = 'test'
+    problem = []
     answer = 0
 
     def __init__(self):
-        problem = 'test'
+        problem = []
 
     @staticmethod
     def request(self):
+        entered_dot = False
         self.problem = []
         # request valid input characters until '=' is entered
         while 1:
-            char = input("Enter a character: ")
+            char = input("enter a character: ")
             if char == '=':
                 self.calculate(self)
-            # first character must be a digit
-            if (not self.problem) and char.isdigit():
-                self.problem.append(char)
-            # next characters must be mathematically valid
-            elif self.problem and ver.is_valid(self.problem, char):
-                self.problem.append(char)
-            else:
-                print("Try again")
+            # keep track of dot added to make sure no more than 1 dot can be in a number
+            if self.problem:
+                if self.problem[-1].isdigit() and char == '.' and not entered_dot:
+                    self.problem.append(char)
+                    entered_dot = True
+            # cannot enter another '.' if one has been entered to a digit
+            if not entered_dot or ((not char == '.') and entered_dot):
+                if char.isdigit():
+                    self.problem.append(char)
+                elif ver.is_valid(self.problem, char):
+                    self.problem.append(char)
+                    entered_dot = False
             print(self.problem)
 
     # method which calculates a mathematically valid problem according to the following steps
@@ -34,9 +39,19 @@ class Calculator:
     def calculate(self):
         problem = self.reformat_digits(self)
         print(problem)
+        if problem[1] == "+":
+            self.answer = problem[0] + problem[2]
+        elif problem[1] == "-":
+            self.answer = problem[0] - problem[2]
+        elif problem[1] == "*":
+            self.answer = problem[0] * problem[2]
+        elif problem[1] == "/":
+            self.answer = problem[0] / problem[2]
+        elif problem[1] == "^":
+            self.answer = pow(problem[0], problem[2])
+        print(problem, "=", self.answer)
         # clear problem
         self.problem = []
-        # save answer (after calculation)
 
     # reformat problem by converting consecutive digit characters into one float number
     # example: '1' '1' '2' '+' '3' '4' '5' '6' -> '112' '+' '3456'
@@ -46,7 +61,7 @@ class Calculator:
         # example: '1' '1' '2' '+' '3' '4' '5' '6' -> '112' '+' '3456'
         sorted_problem = []
         i = 0
-        while i < len(self.problem):
+        while i < len(self.problem) - 1:
             # if the current character is a digit, convert consecutive digits into one number
             if self.problem[i].isdigit():
                 n = i
