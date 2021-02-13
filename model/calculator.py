@@ -20,7 +20,7 @@ class Calculator:
         while 1:
             char = input("enter character: ")
             # start calculation after '=' is entered
-            if char == '=':
+            if char == '=' and not bracket and self.problem[-1] != '.':
                 self.calculate2(self)
             # the first character must be a minus sign or a digit
             if self.problem[-1] == '0':
@@ -56,67 +56,34 @@ class Calculator:
                     self.problem.append(char)
             print(self.problem)
 
-    @staticmethod
-    def request(self):
-        entered_dot = False
-        self.problem = []
-        # request valid input characters until '=' is entered
-        while 1:
-            char = input("enter a character: ")
-            if char == '=':
-                self.calculate(self)
-            # keep track of dot added to make sure no more than 1 dot can be in a number
-            if self.problem:
-                if self.problem[-1].isdigit() and char == '.' and not entered_dot:
-                    self.problem.append(char)
-                    entered_dot = True
-            # cannot enter another '.' if one has been entered to a digit
-            if not entered_dot or ((not char == '.') and entered_dot):
-                if char.isdigit():
-                    self.problem.append(char)
-                elif ver.is_valid(self.problem, char):
-                    self.problem.append(char)
-                    entered_dot = False
-            print(self.problem)
 
-    # method which calculates a mathematically valid problem according to the following steps
-    # 1 - sort problem according to mathematical priority
-    # 2 - solve problem chronologically
     @staticmethod
     def calculate(self):
-        problem = self.reformat_digits(self)
-        print(problem)
-        if problem[1] == "+":
-            self.answer = problem[0] + problem[2]
-        elif problem[1] == "-":
-            self.answer = problem[0] - problem[2]
-        elif problem[1] == "*":
-            self.answer = problem[0] * problem[2]
-        elif problem[1] == "/":
-            self.answer = problem[0] / problem[2]
-        elif problem[1] == "^":
-            self.answer = pow(problem[0], problem[2])
-
-        print(problem, "=", self.answer)
-        # clear problem
-        self.problem = []
-
-    @staticmethod
-    def calculate2(self):
-        new_problem = []
-        print(self.problem)
         n = 0
-        while n < len(self.problem):
+        while n < len(self.problem)-2:
             if self.problem[n+1] == '.':
                 x = self.problem[n]
                 y = self.problem[n+2]
-                new_problem.append(float(x + '.' + y))
-                n = n + 2
-            else:
-                new_problem.append(self.problem[n])
+                self.problem[n] = float(x + '.' + y)
+                del self.problem[n+1]
+                del self.problem[n+1]
             n = n + 1
-        print("final problem is", new_problem)
-        self.problem = []
+        while len(self.problem) != 1:
+            if self.problem[1] == "+":
+                self.problem[0] = float(self.problem[0]) + float(self.problem[2])
+            elif self.problem[1] == "-":
+                self.problem[0] = float(self.problem[0]) - float(self.problem[2])
+            elif self.problem[1] == "*":
+                self.problem[0] = float(self.problem[0]) * float(self.problem[2])
+            elif self.problem[1] == "/":
+                self.problem[0] = float(self.problem[0]) / float(self.problem[2])
+            elif self.problem[1] == "^":
+                self.problem[0] = pow(float(self.problem[0]), float(self.problem[2]))
+            del self.problem[1]
+            del self.problem[1]
+        print(self.problem)
+        self.problem = ['0']
+
 
     # reformat problem by converting consecutive digit characters into one float number
     # example: '1' '1' '2' '+' '3' '4' '5' '6' -> '112' '+' '3456'
