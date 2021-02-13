@@ -10,6 +10,53 @@ class Calculator:
         problem = []
 
     @staticmethod
+    def start(self):
+        # boolean that answers whether a bracket is open
+        bracket = False
+        # boolean that answers whether a dot has been entered
+        dot = False
+        # problem list starts with 0
+        self.problem = ['0']
+        while 1:
+            char = input("enter character: ")
+            # start calculation after '=' is entered
+            if char == '=':
+                self.calculate2(self)
+            # the first character must be a minus sign or a digit
+            if self.problem[-1] == '0':
+                if char == '(':
+                    bracket = True
+                    self.problem[-1] = char
+                elif char == '-':
+                    self.problem.append(char)
+                elif ver.is_digit(char):
+                    self.problem[-1] = char
+            # next characters
+            else:
+                # if the entered character is a single digit
+                if ver.is_digit(char):
+                    # if the previous character is a float, combine character with it to form a single float
+                    if ver.is_float(self.problem[-1]):
+                        self.problem[-1] = self.problem[-1] + char
+                    else:
+                        self.problem.append(char)
+                # if a dot is entered and the previous value is a float without a dot, add it
+                if char == '.' and ver.is_float(self.problem[-1]) and not dot:
+                    dot = True
+                    self.problem.append(char)
+                # if an opening bracket is entered, no is bracket open and the previous character is an operator, add it
+                if char == '(' and ver.is_operator(self.problem[-1]) and not bracket:
+                    bracket = True
+                    self.problem.append(char)
+                if char == ')' and ver.is_float(self.problem[-1]) and bracket:
+                    bracket = False
+                    self.problem.append(char)
+                if ver.is_operator(char) and (ver.is_float(self.problem[-1]) or self.problem[-1] == ')'):
+                    dot = False
+                    self.problem.append(char)
+            print(self.problem)
+
+    @staticmethod
     def request(self):
         entered_dot = False
         self.problem = []
@@ -49,8 +96,26 @@ class Calculator:
             self.answer = problem[0] / problem[2]
         elif problem[1] == "^":
             self.answer = pow(problem[0], problem[2])
+
         print(problem, "=", self.answer)
         # clear problem
+        self.problem = []
+
+    @staticmethod
+    def calculate2(self):
+        new_problem = []
+        print(self.problem)
+        n = 0
+        while n < len(self.problem):
+            if self.problem[n+1] == '.':
+                x = self.problem[n]
+                y = self.problem[n+2]
+                new_problem.append(float(x + '.' + y))
+                n = n + 2
+            else:
+                new_problem.append(self.problem[n])
+            n = n + 1
+        print("final problem is", new_problem)
         self.problem = []
 
     # reformat problem by converting consecutive digit characters into one float number
